@@ -82,7 +82,7 @@ COMMIT;
 Enunciado: Insertar un nuevo producto ("Audífonos Bluetooth", precio 22.00, stock 25) y luego actualizar el stock de "Mouse inalámbrico" restando 3 unidades. Confirma los cambios.
 
 ```sql
--- INSERT INTO productos VALUES (5, 'Audífonos Bluetooth', 22.00, 25);
+INSERT INTO productos VALUES (5, 'Audífonos Bluetooth', 22.00, 25);
 UPDATE productos SET stock = stock - 3 WHERE nombre = 'Mouse inalámbrico';
 COMMIT;
 
@@ -95,7 +95,15 @@ COMMIT;
 Enunciado: Crea una tabla nueva `detalle_pedido` que registre qué productos incluye cada pedido, con las columnas `id_detalle` (llave primaria), `id_pedido` (llave foránea hacia `pedidos`), `id_producto` (llave foránea hacia `productos`) y `cantidad`. Luego inserta un registro que indique que el pedido 501 incluyó 2 unidades del producto "Mouse inalámbrico".
 
 ```sql
--- Escribe aquí tu CREATE TABLE con las llaves foráneas, y el INSERT correspondiente
+CREATE TABLE detalle_pedido (
+    id_detalle NUMBER(5) PRIMARY KEY,
+    id_pedido NUMBER(5) REFERENCES pedidos(id_pedido),
+    id_producto NUMBER(5) REFERENCES productos(id_producto),
+    cantidad NUMBER(5)
+);
+
+INSERT INTO detalle_pedido VALUES (1, 501, 1, 2);
+COMMIT;
 
 ```
 
@@ -117,15 +125,7 @@ Enunciado: Después de crear una tabla usando el asistente visual "New Table" de
 Enunciado: Sobre la tabla `alumnos1`, muestra el nombre de cada alumno en formato "Nombre Propio" (usa `INITCAP`), junto con la longitud real de ese nombre sin espacios sobrantes, ordenado de menor a mayor longitud.
 
 ```sql
--- CREATE TABLE detalle_pedido (
-    id_detalle NUMBER(5) PRIMARY KEY,
-    id_pedido NUMBER(5) REFERENCES pedidos(id_pedido),
-    id_producto NUMBER(5) REFERENCES productos(id_producto),
-    cantidad NUMBER(5)
-);
-
-INSERT INTO detalle_pedido VALUES (1, 501, 1, 2);
-COMMIT;
+-- Escribe aquí
 
 ```
 
