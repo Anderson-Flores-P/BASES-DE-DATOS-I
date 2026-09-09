@@ -4,8 +4,8 @@ tarea: Consultas SQL integradoras — Guías 3 a 7
 fecha_entrega: 2026-09-XX
 integrante_1_carnet: CIF 202601175
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
-integrante_2_carnet: CIFF 20XXXXXX
-integrante_2_nombre: Nombre Apellido
+integrante_2_carnet: CIF 2026011056
+integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 20XXXXXX
 integrante_3_nombre: Nombre Apellido
 integrante_4_carnet: CIFF 20XXXXXX
@@ -82,7 +82,9 @@ COMMIT;
 Enunciado: Insertar un nuevo producto ("Audífonos Bluetooth", precio 22.00, stock 25) y luego actualizar el stock de "Mouse inalámbrico" restando 3 unidades. Confirma los cambios.
 
 ```sql
--- Escribe aquí tus sentencias (INSERT, UPDATE y COMMIT)
+-- INSERT INTO productos VALUES (5, 'Audífonos Bluetooth', 22.00, 25);
+UPDATE productos SET stock = stock - 3 WHERE nombre = 'Mouse inalámbrico';
+COMMIT;
 
 ```
 
@@ -115,7 +117,15 @@ Enunciado: Después de crear una tabla usando el asistente visual "New Table" de
 Enunciado: Sobre la tabla `alumnos1`, muestra el nombre de cada alumno en formato "Nombre Propio" (usa `INITCAP`), junto con la longitud real de ese nombre sin espacios sobrantes, ordenado de menor a mayor longitud.
 
 ```sql
--- Escribe aquí tu consulta
+-- CREATE TABLE detalle_pedido (
+    id_detalle NUMBER(5) PRIMARY KEY,
+    id_pedido NUMBER(5) REFERENCES pedidos(id_pedido),
+    id_producto NUMBER(5) REFERENCES productos(id_producto),
+    cantidad NUMBER(5)
+);
+
+INSERT INTO detalle_pedido VALUES (1, 501, 1, 2);
+COMMIT;
 
 ```
 
