@@ -62,10 +62,24 @@ La creación de bases de datos y tablas mediante una interfaz gráfica en Oracle
 ## Bloque 4 — Transformación de Datos y Control de Flujo
 
 ### Funciones combinadas de transformación (REPLACE, SUBSTR aplicados a casos reales)
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras -->
+Las funciones REPLACE y SUBSTR permiten trabajar y transformar textos dentro de una consulta SQL sin cambiar los datos originales. REPLACE sirve para buscar una parte de un texto y sustituirla por otra, mientras que SUBSTR permite extraer una cantidad determinada de caracteres desde una posición específica. Estas funciones pueden ser útiles en situaciones reales, como quitar guiones de un número telefónico, cambiar caracteres o extraer una parte de un código o correo electrónico. Al combinarlas, se pueden preparar los datos para mostrarlos de una forma más ordenada y fácil de entender.
 
 ### DECODE y CASE: diferencias y casos de uso
-<!-- ESCRIBE AQUÍ: mínimo 120 palabras, incluye al menos un ejemplo de código -->
+DECODE y CASE se utilizan en Oracle SQL para mostrar diferentes resultados dependiendo de una condición. DECODE permite comparar un valor con varias opciones y devolver un resultado según la opción que coincida. Por ejemplo, si una columna indica si un alumno está becado con "Sí" o "No", DECODE puede cambiar esos valores por textos más claros. CASE funciona de una forma más flexible, ya que permite utilizar condiciones como mayor, menor o igual. Por ejemplo, se puede utilizar para clasificar el promedio de un alumno como "Excelente", "Aprobado" o "Reprobado". Una diferencia importante es que DECODE es más sencillo cuando se comparan valores específicos, mientras que CASE resulta más útil cuando se necesitan varias condiciones. Ambas opciones ayudan a presentar la información de una consulta de una manera más clara para el usuario.
+
+```sql
+SELECT
+    nombre,
+    DECODE(becado,
+           'Sí', 'Con beca activa',
+           'No', 'Sin beca') AS estado_beca,
+    CASE
+        WHEN promedio >= 9 THEN 'Excelente'
+        WHEN promedio >= 7 THEN 'Aprobado'
+        ELSE 'Reprobado'
+    END AS categoria_rendimiento
+FROM alumnos1;
+```
 
 ***
 
