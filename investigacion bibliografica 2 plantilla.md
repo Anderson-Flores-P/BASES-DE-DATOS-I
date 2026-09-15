@@ -39,13 +39,35 @@ La creación de bases de datos y tablas mediante una interfaz gráfica en Oracle
 ## Bloque 2 — Funciones de Cadena y Numéricas
 
 ### Funciones de una sola fila: concepto y categorías
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras -->
+Las funciones de una sola fila (Single-Row Functions) en Oracle SQL son herramientas predefinidas que operan sobre un único valor de entrada por cada fila de una tabla y devuelven exactamente un solo resultado procesado por cada fila consultada. Estas funciones pueden ser utilizadas en las cláusulas SELECT, WHERE y ORDER BY. Se dividen en varias categorías principales según el tipo de dato que manipulan: funciones de caracteres para transformar y formatear texto, funciones numéricas para realizar cálculos matemáticos y redondeos, funciones de fecha para la manipulación e ingeniería de tiempos, funciones de conversión para transformar tipos de datos explícitamente, y funciones generales para la gestión de valores nulos y lógica condicional.
 
 ### Funciones de cadena (UPPER, LOWER, SUBSTR, TRIM, LENGTH, entre otras)
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de código -->
+Las funciones de cadena permiten manipular y transformar valores de texto almacenados en la base de datos de manera flexible. `UPPER` convierte todos los caracteres de un texto a mayúsculas, mientras que `LOWER` los transforma a minúsculas, siendo fundamentales para estandarizar búsquedas sin importar cómo se ingresaron los datos. La función `SUBSTR` extrae una porción específica de una cadena indicando la posición inicial y la cantidad de caracteres deseados. Por su parte, `TRIM` elimina los espacios en blanco sobrantes al inicio y al final de una cadena de texto para evitar inconsistencias de formato. Finalmente, `LENGTH` calcula y devuelve el número total de caracteres presentes en una cadena.
 
+```sql
+-- Ejemplo de funciones de cadena
+SELECT 
+    nombre,
+    UPPER(nombre) AS nombre_mayus,
+    LOWER(nombre) AS nombre_minus,
+    SUBSTR(nombre, 1, 3) AS tres_primeras_letras,
+    TRIM(nombre) AS nombre_sin_espacios,
+    LENGTH(TRIM(nombre)) AS cantidad_caracteres
+FROM 
+    alumnos1;
+```
 ### Funciones numéricas (ROUND, TRUNC, MOD, entre otras)
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de código -->
+Las funciones numéricas ejecutan operaciones matemáticas avanzadas sobre datos de tipo NUMBER y devuelven valores numéricos procesados. La función `ROUND` redondea un número al entero más cercano o al número de decimales especificado según las reglas matemáticas estándar. A diferencia del redondeo, la función `TRUNC` corta o trunca un número a una cantidad determinada de decimales sin aproximar el valor final. Por último, la función `MOD` calcula y devuelve el residuo o resto resultante de una división entera entre dos números, siendo ideal para identificar valores pares, impares o secuencias cíclicas en consultas de bases de datos.
+
+```sql
+-- Ejemplo de funciones numéricas
+SELECT 
+    salario,
+    ROUND(salario, 1) AS salario_redondeado,
+    TRUNC(salario, 1) AS salario_truncado,
+    MOD(id_empleado, 2) AS es_par_o_impar
+FROM 
+    empleados;
 
 ***
 
