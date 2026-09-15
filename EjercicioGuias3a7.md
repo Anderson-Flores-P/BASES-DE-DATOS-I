@@ -114,7 +114,15 @@ COMMIT;
 Enunciado: Después de crear una tabla usando el asistente visual "New Table" de Oracle SQL Developer (por ejemplo, la tabla `detalle_pedido` de la consulta anterior, o una tabla `CLIENTES_GUI` de práctica), escribe la consulta contra el diccionario de datos que confirme, sin abrir el árbol de Tables, el nombre de columna, tipo de dato y si admite nulos (NULLABLE) de cada columna de esa tabla.
 
 ```sql
--- Escribe aquí tu consulta contra USER_TAB_COLUMNS
+ SELECT 
+    table_name AS "Nombre de Tabla",
+    column_name AS "Nombre de Columna",
+    data_type AS "Tipo de Dato",
+    nullable AS "Admite Nulos"
+FROM 
+    user_tab_columns
+WHERE 
+    table_name = 'DETALLE_PEDIDO';
 
 ```
 
@@ -125,7 +133,13 @@ Enunciado: Después de crear una tabla usando el asistente visual "New Table" de
 Enunciado: Sobre la tabla `alumnos1`, muestra el nombre de cada alumno en formato "Nombre Propio" (usa `INITCAP`), junto con la longitud real de ese nombre sin espacios sobrantes, ordenado de menor a mayor longitud.
 
 ```sql
--- Escribe aquí
+SELECT 
+    INITCAP(TRIM(nombre)) AS "Nombre Propio",
+    LENGTH(TRIM(nombre)) AS "Longitud Real"
+FROM 
+    alumnos1
+ORDER BY 
+    LENGTH(TRIM(nombre)) ASC;
 
 ```
 
