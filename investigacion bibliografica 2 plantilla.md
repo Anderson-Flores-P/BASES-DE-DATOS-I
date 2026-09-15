@@ -8,8 +8,8 @@ integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 20XXXXXX
 integrante_3_nombre: Nombre Apellido (como aparece en Moodle)
-integrante_4_carnet: CIF 20XXXXXX
-integrante_4_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_4_carnet: CIF 2026011377
+integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
 integrante_5_carnet: CIF 20XXXXXX
 integrante_5_nombre: Nombre Apellido (como aparece en Moodle)
 docente: Mgtr. Rafael Torres
