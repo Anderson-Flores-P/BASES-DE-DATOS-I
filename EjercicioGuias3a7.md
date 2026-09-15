@@ -158,6 +158,15 @@ Enunciado: Muestra el nombre de cada alumno, su estatus de beca traducido con `D
 Enunciado: Genera una "ficha resumida" de cada alumno con: el correo enmascarado (mostrando solo los primeros 3 caracteres antes de la arroba y el dominio completo, el resto oculto con asteriscos), y la categoría de rendimiento del alumno (mismo criterio de la Consulta 6), en una sola consulta. Ordena por categoría y luego por nombre.
 
 ```sql
--- Escribe aquí tu consulta
-
-```
+SELECT
+    nombre,
+    SUBSTR(correo, 1, 3) ||
+    '*****' ||
+    SUBSTR(correo, INSTR(correo, '@')) AS correo_enmascarado,
+    CASE
+        WHEN promedio >= 9 THEN 'Excelente'
+        WHEN promedio >= 7 THEN 'Aprobado'
+        ELSE 'Reprobado'
+    END AS categoria_rendimiento
+FROM alumnos1
+ORDER BY categoria_rendimiento, nombre;
