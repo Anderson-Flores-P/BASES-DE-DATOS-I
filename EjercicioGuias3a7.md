@@ -10,8 +10,8 @@ integrante_3_carnet: CIF 2026011595
 integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011377
 integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
-integrante_5_carnet: CIF 20XXXXXX
-integrante_5_nombre: Nombre Apellido
+integrante_5_carnet: CIF 2026011586
+integrante_5_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 ---
 
 ## Datos de referencia
