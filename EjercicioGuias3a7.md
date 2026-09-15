@@ -161,7 +161,7 @@ Enunciado: Genera una "ficha resumida" de cada alumno con: el correo enmascarado
 SELECT
     nombre,
     SUBSTR(correo, 1, 3) ||
-    '*****' ||
+    RPAD('*', INSTR(correo, '@') - 4, '*') ||
     SUBSTR(correo, INSTR(correo, '@')) AS correo_enmascarado,
     CASE
         WHEN promedio >= 9 THEN 'Excelente'
