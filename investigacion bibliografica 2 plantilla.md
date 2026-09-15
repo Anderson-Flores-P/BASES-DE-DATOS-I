@@ -10,8 +10,8 @@ integrante_3_carnet: CIF 2026011586
 integrante_3_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_4_carnet: CIF 2026011377
 integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
-integrante_5_carnet: CIF 20XXXXXX
-integrante_5_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_5_carnet: CIF 2026011595
+integrante_5_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 docente: Mgtr. Rafael Torres
 ---
 
@@ -74,10 +74,22 @@ FROM
 ## Bloque 3 — Funciones de Fecha
 
 ### SYSDATE y operaciones con fechas (MONTHS_BETWEEN, ADD_MONTHS)
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras -->
+Oracle Database incorpora funciones especializadas para trabajar con fechas, lo que permite calcular antigüedades, vencimientos, períodos de tiempo y fechas futuras directamente desde una consulta SQL. La función SYSDATE devuelve la fecha y la hora actuales del sistema operativo donde se ejecuta el servidor de la base de datos, y su resultado es de tipo DATE.
+Oracle también permite realizar operaciones aritméticas con fechas. Por ejemplo, sumar un número a una fecha equivale a agregar esa cantidad de días. La función MONTHS_BETWEEN(fecha1, fecha2) calcula la cantidad de meses transcurridos entre dos fechas: si la primera fecha es posterior a la segunda, el resultado es positivo; cuando las fechas no coinciden en el mismo día del mes, el resultado puede incluir una parte decimal. Por su parte, ADD_MONTHS(fecha, cantidad) suma o resta una cantidad determinada de meses y devuelve un valor de tipo DATE.
+Estas funciones resultan útiles para determinar cuánto tiempo lleva registrado un alumno, calcular la antigüedad de un empleado o establecer fechas futuras de pago, renovación o vencimiento (Oracle, 2021).
 
 ### TO_CHAR y funciones de conversión de tipos de dato
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de código -->
+Las funciones de conversión permiten transformar un valor de un tipo de dato a otro dentro de una sentencia SQL. Entre las más utilizadas en Oracle se encuentran TO_CHAR, TO_DATE y TO_NUMBER.
+TO_CHAR convierte fechas o números en cadenas de caracteres y permite aplicar modelos de formato. Por ejemplo, una fecha puede mostrarse como DD/MM/YYYY sin modificar el valor DATE almacenado en la base de datos. TO_DATE realiza la operación inversa para las fechas: interpreta una cadena de texto y la convierte en un valor DATE de acuerdo con el formato indicado. TO_NUMBER convierte cadenas de caracteres compatibles en valores numéricos de tipo NUMBER.
+El uso de conversiones explícitas es importante cuando los datos provienen de formularios, archivos o sistemas externos, porque evita depender de formatos implícitos que pueden cambiar según la configuración regional de la sesión. Los modelos de formato indican cómo Oracle debe interpretar o presentar el dato, pero no modifican su representación interna en la base de datos (Oracle, 2021).
+
+```sql
+SELECT
+    TO_CHAR(SYSDATE, 'DD/MM/YYYY HH24:MI:SS') AS fecha_actual,
+    TO_DATE('20/09/2026', 'DD/MM/YYYY') AS fecha_entrega,
+    TO_NUMBER('125.50', '999D99',
+              'NLS_NUMERIC_CHARACTERS = ''.,''') AS cantidad
+FROM dual;
 
 ***
 
