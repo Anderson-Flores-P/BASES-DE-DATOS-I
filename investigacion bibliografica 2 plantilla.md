@@ -6,8 +6,8 @@ integrante_1_carnet: CIF 2026011705
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
-integrante_3_carnet: CIF 20XXXXXX
-integrante_3_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_3_carnet: CIF 2026011586
+integrante_3_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_4_carnet: CIF 2026011377
 integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
 integrante_5_carnet: CIF 20XXXXXX
