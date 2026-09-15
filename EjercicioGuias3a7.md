@@ -6,8 +6,8 @@ integrante_1_carnet: CIF 202601175
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
-integrante_3_carnet: CIF 20XXXXXX
-integrante_3_nombre: Nombre Apellido
+integrante_3_carnet: CIF 2026011595
+integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011377
 integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
 integrante_5_carnet: CIF 20XXXXXX
@@ -150,7 +150,17 @@ ORDER BY
 Enunciado: Muestra el nombre de cada alumno junto con su promedio redondeado a un decimal y su correo, únicamente para los alumnos cuyo promedio sea mayor o igual a 7. Ordena de mayor a menor promedio.
 
 ```sql
--- Escribe aquí tu consulta
+SELECT
+    id_alumno,
+    INITCAP(TRIM(nombre)) AS nombre,
+    promedio,
+    TRUNC(promedio, 1) AS promedio_truncado,
+    ROUND(promedio, 1) AS promedio_redondeado,
+    TO_CHAR(fecha_ingreso, 'DD/MM/YYYY') AS fecha_ingreso,
+    ROUND(MONTHS_BETWEEN(SYSDATE, fecha_ingreso), 1) AS meses_antiguedad
+FROM alumnos
+WHERE MONTHS_BETWEEN(SYSDATE, fecha_ingreso) > 36
+ORDER BY meses_antiguedad DESC;
 
 ```
 
@@ -161,7 +171,22 @@ Enunciado: Muestra el nombre de cada alumno junto con su promedio redondeado a u
 Enunciado: Muestra el nombre de cada alumno, su estatus de beca traducido con `DECODE` ("Sí" → "Con beca activa", "No" → "Sin beca"), y su categoría de rendimiento usando `CASE`: "Excelente" si el promedio es mayor o igual a 9, "Aprobado" si es mayor o igual a 7, y "Reprobado" en cualquier otro caso.
 
 ```sql
--- Escribe aquí tu consulta
+SELECT
+    id_alumno,
+    INITCAP(TRIM(nombre)) AS nombre,
+    promedio,
+    CASE
+        WHEN promedio >= 9 THEN 'Excelente'
+        WHEN promedio >= 7 THEN 'Bueno'
+        ELSE 'Regular'
+    END AS categoria,
+    DECODE(
+        telefono,
+        NULL, 'Sin teléfono',
+        'Con teléfono'
+    ) AS estado_telefono
+FROM alumnos
+ORDER BY promedio DESC;
 
 ```
 
