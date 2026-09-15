@@ -8,7 +8,7 @@ integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 20XXXXXX
 integrante_3_nombre: Nombre Apellido
-integrante_4_carnet: CIFF 2026011377
+integrante_4_carnet: CIF 2026011377
 integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
 integrante_5_carnet: CIF 20XXXXXX
 integrante_5_nombre: Nombre Apellido
@@ -170,3 +170,4 @@ SELECT
     END AS categoria_rendimiento
 FROM alumnos1
 ORDER BY categoria_rendimiento, nombre;
+```
