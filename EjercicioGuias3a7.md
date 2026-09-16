@@ -9,7 +9,7 @@ integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 2026011595
 integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011377
-integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
+integrante_4_nombre: KELLY RODRIGUEZ ALVARADO
 integrante_5_carnet: CIF 2026011586
 integrante_5_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 ---
