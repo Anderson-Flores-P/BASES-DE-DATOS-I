@@ -1,7 +1,7 @@
 ---
 grupo: GP_2026011705
 tarea: Consultas SQL integradoras — Guías 3 a 7
-fecha_entrega: 2026-09-XX
+fecha_entrega: 2026-09-16
 integrante_1_carnet: CIF 2026011705
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
