@@ -151,16 +151,12 @@ Enunciado: Muestra el nombre de cada alumno junto con su promedio redondeado a u
 
 ```sql
 SELECT
-    id_alumno,
-    INITCAP(TRIM(nombre)) AS nombre,
-    promedio,
-    TRUNC(promedio, 1) AS promedio_truncado,
-    ROUND(promedio, 1) AS promedio_redondeado,
-    TO_CHAR(fecha_ingreso, 'DD/MM/YYYY') AS fecha_ingreso,
-    ROUND(MONTHS_BETWEEN(SYSDATE, fecha_ingreso), 1) AS meses_antiguedad
-FROM alumnos
-WHERE MONTHS_BETWEEN(SYSDATE, fecha_ingreso) > 36
-ORDER BY meses_antiguedad DESC;
+    INITCAP(TRIM(nombre)) AS "Nombre Propio",
+    ROUND(promedio, 1) AS "Promedio",
+    correo AS "Correo"
+FROM alumnos1
+WHERE promedio >= 7
+ORDER BY promedio DESC;
 
 ```
 
@@ -172,20 +168,14 @@ Enunciado: Muestra el nombre de cada alumno, su estatus de beca traducido con `D
 
 ```sql
 SELECT
-    id_alumno,
-    INITCAP(TRIM(nombre)) AS nombre,
-    promedio,
+    nombre AS "Nombre",
+    DECODE(becado, 'Sí', 'Con beca activa', 'No', 'Sin beca') AS "Estatus Beca",
     CASE
         WHEN promedio >= 9 THEN 'Excelente'
-        WHEN promedio >= 7 THEN 'Bueno'
-        ELSE 'Regular'
-    END AS categoria,
-    DECODE(
-        telefono,
-        NULL, 'Sin teléfono',
-        'Con teléfono'
-    ) AS estado_telefono
-FROM alumnos
+        WHEN promedio >= 7 THEN 'Aprobado'
+        ELSE 'Reprobado'
+    END AS "Categoria Rendimiento"
+FROM alumnos1
 ORDER BY promedio DESC;
 
 ```
