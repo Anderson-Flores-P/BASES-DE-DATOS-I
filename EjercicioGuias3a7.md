@@ -1,8 +1,8 @@
 ---
-grupo: G0X
+grupo: GP_2026011705
 tarea: Consultas SQL integradoras — Guías 3 a 7
 fecha_entrega: 2026-09-XX
-integrante_1_carnet: CIF 202601175
+integrante_1_carnet: CIF 2026011705
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
