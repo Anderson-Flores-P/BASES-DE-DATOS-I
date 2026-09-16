@@ -1,5 +1,5 @@
 ---
-grupo: G0X
+grupo: GP_2026011705
 tarea: Investigación Bibliográfica 2 - Oracle SQL Developer, Funciones y Control de Flujo
 fecha_entrega: 2026-09-20
 integrante_1_carnet: CIF 2026011705
@@ -9,7 +9,7 @@ integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 2026011586
 integrante_3_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_4_carnet: CIF 2026011377
-integrante_4_nombre: KELLY RODRIGUEZ ALVARADO 
+integrante_4_nombre: KELLY RODRIGUEZ ALVARADO
 integrante_5_carnet: CIF 2026011595
 integrante_5_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 docente: Mgtr. Rafael Torres
@@ -68,7 +68,7 @@ SELECT
     MOD(id_empleado, 2) AS es_par_o_impar
 FROM 
     empleados;
-
+```
 ***
 
 ## Bloque 3 — Funciones de Fecha
@@ -76,12 +76,12 @@ FROM
 ### SYSDATE y operaciones con fechas (MONTHS_BETWEEN, ADD_MONTHS)
 Oracle Database incorpora funciones especializadas para trabajar con fechas, lo que permite calcular antigüedades, vencimientos, períodos de tiempo y fechas futuras directamente desde una consulta SQL. La función SYSDATE devuelve la fecha y la hora actuales del sistema operativo donde se ejecuta el servidor de la base de datos, y su resultado es de tipo DATE.
 Oracle también permite realizar operaciones aritméticas con fechas. Por ejemplo, sumar un número a una fecha equivale a agregar esa cantidad de días. La función MONTHS_BETWEEN(fecha1, fecha2) calcula la cantidad de meses transcurridos entre dos fechas: si la primera fecha es posterior a la segunda, el resultado es positivo; cuando las fechas no coinciden en el mismo día del mes, el resultado puede incluir una parte decimal. Por su parte, ADD_MONTHS(fecha, cantidad) suma o resta una cantidad determinada de meses y devuelve un valor de tipo DATE.
-Estas funciones resultan útiles para determinar cuánto tiempo lleva registrado un alumno, calcular la antigüedad de un empleado o establecer fechas futuras de pago, renovación o vencimiento (Oracle, 2021).
+Estas funciones resultan útiles para determinar cuánto tiempo lleva registrado un alumno, calcular la antigüedad de un empleado o establecer fechas futuras de pago, renovación o vencimiento.
 
 ### TO_CHAR y funciones de conversión de tipos de dato
 Las funciones de conversión permiten transformar un valor de un tipo de dato a otro dentro de una sentencia SQL. Entre las más utilizadas en Oracle se encuentran TO_CHAR, TO_DATE y TO_NUMBER.
 TO_CHAR convierte fechas o números en cadenas de caracteres y permite aplicar modelos de formato. Por ejemplo, una fecha puede mostrarse como DD/MM/YYYY sin modificar el valor DATE almacenado en la base de datos. TO_DATE realiza la operación inversa para las fechas: interpreta una cadena de texto y la convierte en un valor DATE de acuerdo con el formato indicado. TO_NUMBER convierte cadenas de caracteres compatibles en valores numéricos de tipo NUMBER.
-El uso de conversiones explícitas es importante cuando los datos provienen de formularios, archivos o sistemas externos, porque evita depender de formatos implícitos que pueden cambiar según la configuración regional de la sesión. Los modelos de formato indican cómo Oracle debe interpretar o presentar el dato, pero no modifican su representación interna en la base de datos (Oracle, 2021).
+El uso de conversiones explícitas es importante cuando los datos provienen de formularios, archivos o sistemas externos, porque evita depender de formatos implícitos que pueden cambiar según la configuración regional de la sesión. Los modelos de formato indican cómo Oracle debe interpretar o presentar el dato, pero no modifican su representación interna en la base de datos.
 
 ```sql
 SELECT
@@ -90,7 +90,7 @@ SELECT
     TO_NUMBER('125.50', '999D99',
               'NLS_NUMERIC_CHARACTERS = ''.,''') AS cantidad
 FROM dual;
-
+```
 ***
 
 ## Bloque 4 — Transformación de Datos y Control de Flujo
@@ -119,15 +119,18 @@ FROM alumnos1;
 
 ## Conclusiones
 
-<!-- ESCRIBE AQUÍ: mínimo un párrafo por integrante, o una conclusión grupal de al menos 150 palabras -->
+Esta investigación bibliográfica ha reafirmado que el dominio de funciones de cadena como UPPER, LOWER, LENGTH, SUBSTR e INSTR es fundamental para garantizar la calidad, integridad y consistencia de los datos almacenados en cualquier sistema gestor. La estandarización de búsquedas mediante funciones de conversión a mayúsculas o minúsculas previene duplicados lógicos y optimiza significativamente el rendimiento de las consultas. Por otra parte, la aplicación de funciones de fecha como SYSDATE, MONTHS_BETWEEN y ADD_MONTHS habilita el desarrollo de auditorías temporales exactas y la automatización de sistemas de control de vencimientos. Asimismo, herramientas visuales como Oracle SQL Developer representan una evolución clave para el desarrollo moderno, al integrar capacidades de administración de estructuras relacionales y entorno de pruebas en una sola plataforma. Finalmente, comprender las estructuras condicionales DECODE y CASE permite transformar datos crudos en información lógica estructurada, consolidando habilidades críticas para el ejercicio profesional en ingeniería de software y analítica de datos.
 
 ***
 
 ## Bibliografía
 
-<!-- Mínimo 4 fuentes en formato APA 7.ª edición, numeradas. -->
+1. Connolly, T. M., & Begg, C. E. (2015). Database systems: A practical approach to design, implementation, and management (6ª ed.). Pearson Education.
 
-1.
-2.
-3.
-4.
+2. Date, C. J. (2015). An introduction to database systems (8ª ed.). Pearson.
+
+3. Elmasri, R., & Navathe, S. B. (2016). Fundamentals of database systems (7ª ed.). Pearson.
+
+4. García-Molina, H., Ullman, J. D., & Widom, J. (2009). Database systems: The complete book (2ª ed.). Pearson Prentice Hall.
+
+5. Ullman, J. D., & Widom, J. (2008). A first course in database systems (3ª ed.). Pearson Prentice Hall.
