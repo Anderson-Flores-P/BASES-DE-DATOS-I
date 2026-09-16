@@ -97,7 +97,7 @@ Enunciado: Crea una tabla nueva `detalle_pedido` que registre qué productos inc
 ```sql
 CREATE TABLE detalle_pedido (
     id_detalle NUMBER(5) PRIMARY KEY,
-    id_pedido NUMBER(5) REFERENCES pedidos(id_pedido),
+    id_pedido NUMBER(6) REFERENCES pedidos(id_pedido),
     id_producto NUMBER(5) REFERENCES productos(id_producto),
     cantidad NUMBER(5)
 );
@@ -152,7 +152,8 @@ Enunciado: Muestra el nombre de cada alumno junto con su promedio redondeado a u
 ```sql
 SELECT
     INITCAP(TRIM(nombre)) AS "Nombre Propio",
-    ROUND(promedio, 1) AS "Promedio",
+    TRUNC(promedio, 1) AS "Promedio Truncado",
+    ROUND(promedio, 1) AS "Promedio Redondeado",
     correo AS "Correo"
 FROM alumnos1
 WHERE promedio >= 7
