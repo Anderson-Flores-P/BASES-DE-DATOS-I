@@ -1,44 +1,53 @@
-# 📋 Organización de Tareas del Equipo
+# Bases de Datos I — Trabajos grupales
 
-Este documento detalla la asignación de responsabilidades y fechas de entrega para las actividades del curso.
+Repositorio del grupo **GP_2026011705** para el curso **Base de Datos I (BAS I)**, docente **Mgtr. Rafael Torres**. Oracle SQL. Entregas en `.md`, sin convertir a Word ni PDF.
 
----
+## Integrantes
 
-## 📅 Tarea 1: Consultas SQL (Guías 3 a 7)
-* **Fecha de entrega:** 16 de septiembre de 2026
+| Nombre | Carnet |
+| --- | --- |
+| Anderson Steven Flores Perez | CIF 2026011705 |
+| Camila Nicole Salvador Samayoa | CIF 2026011056 |
+| Jose Alfredo Rodriguez Monge | CIF 2026011586 |
+| Kelly Alejandra Rodriguez Alvarado | CIF 2026011377 |
+| Perla Esmeralda López Barrientos | CIF 2026011595 |
 
-| Integrante | Responsabilidad / Consultas | Enfoque Técnico |
-| :--- | :--- | :--- |
-| **Camila** | Consulta 1 (Guía 3) + Consulta 2 (Guía 4) | Básicos de DML y DDL |
-| **Alfredo** | Consulta 3 (Guía 5) + Consulta 4 (Guía 6) | Diccionario de datos y funciones de cadena |
-| **Esmeralda** | Consulta 5 (Guía 6) + Consulta 6 (Guía 7) | Funciones numéricas/fecha y lógica con `DECODE`/`CASE` |
-| **Kelly** | Consulta 7 (Guía 7) | Enmascarado avanzado con `SUBSTR`/`INSTR` y `CASE` combinado |
-| **Anderson** | Revisión integral y control de calidad | Unificación del `.md`, pruebas de ejecución continua en Oracle local y validación de rúbrica de formato (5%) |
+## Qué hay aquí
 
----
+El repo tiene dos rondas de trabajo. Cada ronda combina consultas SQL en Oracle y una investigación bibliográfica.
 
-## 📅 Tarea 2: Investigación Bibliográfica 2 (Plantilla)
-* **Fecha de entrega:** 20 de septiembre de 2026
+```
+.
+├── BASES-DE-DATOS-I/Primera investigación/   # entrega ya hecha (sept 2026)
+└── Segunda investigacion/                    # entrega actual (oct–nov 2026)
+```
 
-### 👤 Camila: Introducción y Bloque 1 (Oracle SQL Developer)
-* **Introducción:** Redacción de 3 a 5 líneas sobre la importancia del tema para el curso.
-* **Sección 1.1:** ¿Qué es Oracle SQL Developer y para qué sirve? *(Mínimo 80 palabras)*.
-* **Sección 1.2:** Creación de bases de datos y tablas mediante interfaz gráfica *(Mínimo 100 palabras)*.
+### Primera investigación
 
-### 👤 Alfredo: Bloque 2 (Funciones de Cadena y Numéricas)
-* **Sección 2.1:** Funciones de una sola fila: concepto y categorías *(Mínimo 80 palabras)*.
-* **Sección 2.2:** Funciones de cadena (`UPPER`, `LOWER`, `SUBSTR`, `TRIM`, `LENGTH`) *(Mínimo 100 palabras + ejemplo de código)*.
-* **Sección 2.3:** Funciones numéricas (`ROUND`, `TRUNC`, `MOD`) *(Mínimo 100 palabras + ejemplo de código)*.
+Carpeta: `BASES-DE-DATOS-I/Primera investigación/`
 
-### 👤 Esmeralda: Bloque 3 (Funciones de Fecha y Conversión)
-* **Sección 3.1:** `SYSDATE` y operaciones con fechas (`MONTHS_BETWEEN`, `ADD_MONTHS`) *(Mínimo 100 palabras)*.
-* **Sección 3.2:** `TO_CHAR` y funciones de conversión de tipos de dato *(Mínimo 100 palabras + ejemplo de código)*.
+| Archivo | Qué es | Entrega |
+| --- | --- | --- |
+| `EjercicioGuias3a7.md` | 7 consultas SQL (Guías 3–7): DML/DDL, diccionario, funciones, `DECODE`/`CASE`, enmascarado | 16 sep 2026 |
+| `investigacion bibliografica 2 plantilla.md` | Investigación 2: SQL Developer, funciones de cadena/número/fecha, control de flujo | 20 sep 2026 |
+| `README.md` | Reparto interno de esa ronda | — |
+| `Tarea_SQL_Integrante_3_Perla_Lopez.md` | Borrador individual (consultas 5 y 6) | — |
 
-### 👤 Kelly: Bloque 4 (Transformación y Control de Flujo)
-* **Sección 4.1:** Funciones combinadas de transformación (`REPLACE`, `SUBSTR` en casos reales) *(Mínimo 80 palabras)*.
-* **Sección 4.2:** `DECODE` y `CASE`: diferencias y casos de uso *(Mínimo 120 palabras + ejemplo de código)*.
+### Segunda investigación
 
-### 👤 Anderson: Conclusiones, Bibliografía y Control de Formato
-* **Conclusiones:** Redacción de la conclusión grupal *(Mínimo 150 palabras)* o compilación de párrafos individuales.
-* **Bibliografía:** Listado y formateo de mínimo 4 fuentes bajo normativa **APA 7.ª edición**.
-* **Revisión final:** Verificación de conteos mínimos de palabras, ejemplos de código solicitados y preservación del formato `.md`.
+Carpeta: `Segunda investigacion/`
+
+| Archivo | Qué es | Entrega |
+| --- | --- | --- |
+| `EjerciciosGuias8a11.MD` | 8 consultas SQL (Guías 8–11): usuarios/enmascarado, `DECODE`/`CASE`, `GROUP BY`/`HAVING`, JOINs, 3FN, vistas | 28 oct 2026 |
+| `investigacion bibliografica 3 plantilla.MD` | Investigación 3: agregación, JOINs, normalización, vistas y subconsultas. El grupo define su propio caso (2–3 tablas) | 1 nov 2026 |
+| `README.md` | Instrucciones de las consultas 8–11 | — |
+| `README2.md` | Instrucciones de la investigación 3 | — |
+
+## Cómo entregar
+
+1. Completar encabezado del `.md` (grupo, carnets `CIF 20XXXXXX`, nombres como en Moodle).
+2. Ejecutar el SQL en el esquema propio de Oracle SQL Developer.
+3. Subir el mismo archivo `.md` a la plataforma. Nombre original. Sin otro formato.
+
+Detalle de rúbrica y pasos: `Segunda investigacion/README.md` y `Segunda investigacion/README2.md`.
