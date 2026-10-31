@@ -130,7 +130,7 @@ Enunciado: Sobre la tabla `clientes_ej`, muestra para cada cliente: su nombre co
 Enunciado: Sobre la tabla `pedidos_ej`, muestra el `id_pedido`, la fecha con formato `DD/MM/YYYY`, el estado traducido con `DECODE` (`'E'` → "Entregado", `'P'` → "Pendiente", `'C'` → "Cancelado") y una columna de seguimiento calculada con `CASE`: "Atrasado" si el pedido está pendiente y su fecha es anterior al 5 de octubre de 2026, "En proceso" si está pendiente en cualquier otra fecha, y "Cerrado" en cualquier otro caso. Ordena por fecha.
 
 ```sql
---  SELECT 
+SELECT 
     id_pedido, 
     TO_CHAR(fecha, 'DD/MM/YYYY') AS fecha,
     DECODE(estado, 'E', 'Entregado', 'P', 'Pendiente', 'C', 'Cancelado', estado) AS estado,
@@ -150,7 +150,7 @@ ORDER BY fecha;
 Enunciado: Sobre la tabla `productos_ej`, muestra por cada categoría: la cantidad de productos, el precio promedio redondeado a 2 decimales, el precio más alto y el precio más bajo. Ordena alfabéticamente por categoría.
 
 ```sql
--- SELECT 
+SELECT 
     categoria, 
     COUNT(*) AS cantidad_productos, 
     ROUND(AVG(precio), 2) AS precio_promedio, 
