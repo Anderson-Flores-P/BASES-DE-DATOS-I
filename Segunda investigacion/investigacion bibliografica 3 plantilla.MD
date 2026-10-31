@@ -4,8 +4,8 @@ tarea: Investigación Bibliográfica 3 - Agrupación, JOINs, Normalización, Vis
 fecha_entrega: 2026-11-01
 integrante_1_carnet: CIF 20XXXXXX
 integrante_1_nombre: Nombre Apellido (como aparece en Moodle)
-integrante_2_carnet: CIF 20XXXXXX
-integrante_2_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_2_carnet: CIF 2026011056
+integrante_2_nombre: Camila Nicole Salvador Samayoa
 integrante_3_carnet: CIF 20XXXXXX
 integrante_3_nombre: Nombre Apellido (como aparece en Moodle)
 integrante_4_carnet: CIF 20XXXXXX
