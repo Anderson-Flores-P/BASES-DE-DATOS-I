@@ -8,8 +8,8 @@ integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 2026011595
 integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
-integrante_4_carnet: CIF 20XXXXXX
-integrante_4_nombre: Nombre Apellido
+integrante_4_carnet: CIF 2026011586
+integrante_4_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_5_carnet: CIF 20XXXXXX
 integrante_5_nombre: Nombre Apellido
 ---
@@ -168,7 +168,12 @@ ORDER BY categoria ASC;
 Enunciado: Sobre la tabla `pedidos_ej`, muestra el `id_cliente` y la cantidad de pedidos **no cancelados** de cada cliente, pero únicamente de los clientes que tengan **2 o más** pedidos no cancelados. Ordena de mayor a menor cantidad de pedidos.
 
 ```sql
--- Escribe aquí tu consulta
+SELECT id_cliente, COUNT(*) AS total_pedidos
+FROM pedidos_ej
+WHERE estado != 'CANCELADO'
+GROUP BY id_cliente
+HAVING COUNT(*) >= 2
+ORDER BY total_pedidos DESC;
 
 ```
 
@@ -179,7 +184,20 @@ Enunciado: Sobre la tabla `pedidos_ej`, muestra el `id_cliente` y la cantidad de
 Enunciado: Muestra el detalle de los pedidos **entregados**: nombre completo del cliente, `id_pedido`, nombre del producto, cantidad y subtotal (cantidad multiplicada por el precio del producto). Necesitarás unir `clientes_ej`, `pedidos_ej`, `detalle_ej` y `productos_ej`. Ordena por `id_pedido` y luego por nombre del producto.
 
 ```sql
--- Escribe aquí tu consulta
+SELECT 
+    c.id_cliente,
+    c.nombre_cliente,
+    p.id_pedido,
+    pr.nombre_producto,
+    d.cantidad,
+    d.precio_unitario,
+    (d.cantidad * d.precio_unitario) AS subtotal
+FROM clientes_ej c
+INNER JOIN pedidos_ej p ON c.id_cliente = p.id_cliente
+INNER JOIN detalle_ej d ON p.id_pedido = d.id_pedido
+INNER JOIN productos_ej pr ON d.id_producto = pr.id_producto
+WHERE p.estado = 'ENTREGADO'
+ORDER BY p.id_pedido, pr.nombre_producto;
 
 ```
 
