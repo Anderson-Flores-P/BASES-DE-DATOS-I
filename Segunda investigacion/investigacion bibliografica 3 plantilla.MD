@@ -8,8 +8,8 @@ integrante_2_carnet: CIF 2026011056
 integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
 integrante_3_carnet: CIF 2026011595
 integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
-integrante_4_carnet: CIF 20XXXXXX
-integrante_4_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_4_carnet: CIF 2026011586
+integrante_4_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_5_carnet: CIF 20XXXXXX
 integrante_5_nombre: Nombre Apellido (como aparece en Moodle)
 docente: Mgtr. Rafael Torres
@@ -94,14 +94,40 @@ Hay 5 órdenes y 3 descuentos registrados, incluidos los descuentos de valor cer
 ## Bloque 2 — JOINs
 
 ### Tipos de JOIN: INNER, LEFT, RIGHT y FULL OUTER
-<!-- ESCRIBE AQUÍ: mínimo 120 palabras, incluye al menos un ejemplo de código con las tablas del caso -->
+
+Los operadores `JOIN` en bases de datos relacionales permiten combinar registros de dos o más tablas basándose en un campo común entre ellas. El **INNER JOIN** devuelve únicamente las filas que tienen una coincidencia exacta en ambas tablas descartando los valores huérfanos. Por otro lado, los operadores de tipo externo conservan los registros sin coincidencia de una o ambas partes: el **LEFT JOIN** devuelve todos los registros de la tabla izquierda y las coincidencias de la derecha (completando con nulos si no hay contraparte); el **RIGHT JOIN** opera de forma inversa, priorizando la tabla derecha; y el **FULL OUTER JOIN** combina ambos comportamientos, mostrando todos los registros de ambas tablas y relacionando los que coincidan mientras rellena con valores nulos los campos faltantes en cualquiera de los extremos. Su correcta elección optimiza el rendimiento y garantiza la integridad de la información recuperada.
+
+Ejemplo de código aplicando las tablas del caso:
+
+```sql
+SELECT c.nombre_cliente, p.id_pedido, p.estado
+FROM clientes_ej c
+INNER JOIN pedidos_ej p ON c.id_cliente = p.id_cliente;
+
+SELECT c.nombre_cliente, p.id_pedido
+FROM clientes_ej c
+LEFT JOIN pedidos_ej p ON c.id_cliente = p.id_cliente;
 
 ### El producto cartesiano: qué es y cómo evitarlo
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras -->
+
+Un producto cartesiano ocurre cuando se ejecutan consultas multitabla omitiendo u olvidando la condición de unión (`ON` o `WHERE`). Como resultado, el motor de base de datos combina cada fila de la primera tabla con absolutamente todas las filas de la segunda tabla, generando un volumen masivo de datos inútiles que saturan la memoria y degradan drásticamente el rendimiento del servidor. Para evitarlo, es fundamental especificar siempre los criterios de relación mediante las cláusulas de unión explícitas (`INNER JOIN ... ON`) o asegurarse de incluir los filtros de equidad correspondientes en la cláusula `WHERE` al utilizar sintaxis tradicional
 
 ### Investigación más allá de clase: la sintaxis antigua de Oracle con (+) frente a la sintaxis ANSI
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras. Muestra la misma consulta escrita de las dos formas y explica por qué hoy se recomienda la sintaxis ANSI. -->
 
+La sintaxis tradicional de Oracle utilizaba el operador de signo más entre paréntesis `(+)` colocado en el lado de la condición donde faltaban datos para simular uniones externas (`LEFT` o `RIGHT JOIN`). No obstante, esta notación era propietaria, confusa en consultas complejas con múltiples tablas y propensa a errores críticos. En contraste, la sintaxis estándar ANSI introducida en SQL:1992 separa claramente la lógica de los filtros de selección (`WHERE`) de las reglas de relación estructural (`JOIN` y `ON`). La adopción de la normativa ANSI favorece la portabilidad del código entre diferentes motores gestores y mejora sustancialmente la legibilidad y el mantenimiento del código SQL.
+
+Ejemplo comparativo:
+
+```sql
+-- Sintaxis Antigua Oracle (+)
+SELECT e.nombre, d.nombre_departamento
+FROM empleados e, departamentos d
+WHERE e.id_depto = d.id_depto(+);
+
+-- Sintaxis Estándar ANSI
+SELECT e.nombre, d.nombre_departamento
+FROM empleados e
+LEFT JOIN departamentos d ON e.id_depto = d.id_depto;
 ***
 
 ## Bloque 3 — Normalización
