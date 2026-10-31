@@ -2,12 +2,12 @@
 grupo: G0X
 tarea: Consultas SQL integradoras — Guías 8 a 11
 fecha_entrega: 2026-10-XX
-integrante_1_carnet: CIF 20XXXXXX
-integrante_1_nombre: Nombre Apellido
+integrante_1_carnet: CIF 2026011705
+integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
-integrante_2_nombre: Camila Nicole Salvador Samayoa
-integrante_3_carnet: CIF 20XXXXXX
-integrante_3_nombre: Nombre Apellido
+integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
+integrante_3_carnet: CIF 2026011595
+integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 20XXXXXX
 integrante_4_nombre: Nombre Apellido
 integrante_5_carnet: CIF 20XXXXXX

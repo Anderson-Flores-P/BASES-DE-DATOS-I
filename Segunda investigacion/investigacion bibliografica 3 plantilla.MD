@@ -2,12 +2,12 @@
 grupo: G0X
 tarea: Investigación Bibliográfica 3 - Agrupación, JOINs, Normalización, Vistas y Sub-consultas
 fecha_entrega: 2026-11-01
-integrante_1_carnet: CIF 20XXXXXX
-integrante_1_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_1_carnet: CIF 2026011705
+integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
-integrante_2_nombre: Camila Nicole Salvador Samayoa
-integrante_3_carnet: CIF 20XXXXXX
-integrante_3_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_2_nombre: CAMILA NICOLE SALVADOR SAMAYOA
+integrante_3_carnet: CIF 2026011595
+integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 20XXXXXX
 integrante_4_nombre: Nombre Apellido (como aparece en Moodle)
 integrante_5_carnet: CIF 20XXXXXX
@@ -43,13 +43,51 @@ docente: Mgtr. Rafael Torres
 ## Bloque 1 — Funciones de Agregación y Agrupación
 
 ### Funciones de agregación (COUNT, SUM, AVG, MAX, MIN)
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de código con las tablas del caso -->
+Las funciones de agregación de Oracle permiten resumir conjuntos de registros para elaborar reportes y tomar decisiones basadas en datos. A diferencia de una consulta que muestra todas las filas, una agregación puede devolver un solo resultado con la información total o generar un resultado por grupo. `COUNT(*)` cuenta las órdenes registradas, mientras que `COUNT(columna)` considera únicamente valores no nulos de esa columna. `SUM` acumula importes, `AVG` calcula la media aritmética, `MAX` identifica el valor más alto y `MIN` el más bajo. En el taller de reparación de computadoras, estas funciones ayudan a conocer cuántos servicios se solicitaron, el dinero asociado a las órdenes y los extremos de sus costos. Si se requiere analizar cada cliente o cada tipo de servicio por separado, estas mismas funciones pueden combinarse con `GROUP BY`. Conviene distinguir siempre entre el total de órdenes y el total de pagos efectivamente recibidos: una orden pendiente no representa necesariamente un ingreso cobrado.
+
+```sql
+SELECT
+    COUNT(*) AS total_ordenes,
+    SUM(monto_total) AS monto_acumulado,
+    ROUND(AVG(monto_total), 2) AS promedio_orden,
+    MAX(monto_total) AS monto_mayor,
+    MIN(monto_total) AS monto_menor
+FROM ordenes_taller;
+```
+
+Con las cinco órdenes de prueba, el total de registros es 5, la suma de importes es 285, el promedio es 57, el máximo es 110 y el mínimo 25. La suma incluye la orden pendiente; no equivale necesariamente al dinero ya cobrado.
 
 ### GROUP BY y HAVING: diferencia entre filtrar filas y filtrar grupos
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de código que use WHERE y HAVING en la misma consulta -->
+La cláusula `GROUP BY` reúne filas que tienen el mismo valor en una o varias columnas y permite calcular estadísticas para cada grupo. En una base de datos de servicios, por ejemplo, puede reunir las órdenes de cada cliente para averiguar cuántas contrató. La diferencia fundamental entre `WHERE` y `HAVING` está en el momento del filtrado. `WHERE` elimina registros individuales antes de realizar la agrupación: en nuestro ejemplo excluye las órdenes pendientes y conserva únicamente las pagadas. Después, `GROUP BY` agrupa las órdenes por identificador de cliente y las funciones `COUNT` y `SUM` calculan los resultados de cada uno. Finalmente, `HAVING` descarta los grupos que no cumplen la condición establecida, en este caso los clientes que tienen menos de dos órdenes pagadas. De ese modo, se evita confundir una condición de una fila, como el estado de pago, con una condición calculada sobre varias filas. La instrucción `ORDER BY` se agrega de manera explícita porque `GROUP BY` no garantiza ningún orden de presentación
+
+```sql
+SELECT
+    id_cliente,
+    COUNT(*) AS ordenes_pagadas,
+    SUM(monto_total) AS total_pagado
+FROM ordenes_taller
+WHERE estado = 'PAGADA'
+GROUP BY id_cliente
+HAVING COUNT(*) >= 2
+ORDER BY id_cliente;
+```
+
+Solo aparecen los clientes 101 y 102, cada uno con dos órdenes pagadas. Sus totales son 65 y 170, respectivamente.
 
 ### Investigación más allá de clase: funciones de agregación y valores NULL
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras. ¿Qué hacen COUNT(*), COUNT(columna) y AVG cuando hay valores nulos? ¿Qué diferencia hay entre COUNT(*) y COUNT(columna)? Incluye un ejemplo. -->
+En Oracle, `NULL` representa un valor ausente, desconocido o que no corresponde, y no debe confundirse con cero. Esta diferencia modifica el comportamiento de las funciones de agregación. `COUNT(*)` contabiliza todas las órdenes, aunque alguno de sus campos sea nulo; `COUNT(descuento)` solo cuenta las órdenes que tienen un descuento registrado. Asimismo, `SUM(descuento)` y `AVG(descuento)` omiten los descuentos nulos. En cambio, al utilizar `AVG(NVL(descuento, 0))` se sustituyen los valores nulos por cero durante el cálculo, por lo que el denominador incluye todas las órdenes. Esta sustitución es válida únicamente si, para el negocio, un descuento no registrado debe interpretarse como ausencia de descuento; de lo contrario, alteraría el significado de la información. Analizar los resultados de ambas expresiones permite detectar esa diferencia.
+
+```sql
+SELECT
+    COUNT(*) AS total_ordenes,
+    COUNT(descuento) AS con_descuento_registrado,
+    SUM(descuento) AS suma_descuentos,
+    ROUND(AVG(descuento), 2) AS promedio_no_nulos,
+    ROUND(AVG(NVL(descuento, 0)), 2) AS promedio_con_ceros
+FROM ordenes_taller;
+```
+
+Hay 5 órdenes y 3 descuentos registrados, incluidos los descuentos de valor cero. Su suma es 15, el promedio de descuentos no nulos es 5 y el promedio considerando los nulos como cero es 3.
 
 ***
 
@@ -82,7 +120,30 @@ La desnormalización es una técnica que introduce redundancia controlada agrupa
 ## Bloque 4 — Vistas y Sub-consultas
 
 ### Vistas en Oracle: concepto, creación y uso para seguridad
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de CREATE VIEW con las tablas del caso -->
+Una vista en Oracle es una tabla lógica definida mediante una consulta `SELECT` y basada en una o varias tablas existentes. Una vista normal no mantiene una copia independiente de sus filas: su contenido se obtiene al consultarla. Se crea con `CREATE VIEW` y puede modificarse mediante `CREATE OR REPLACE VIEW`, siempre que el usuario tenga los permisos necesarios. Las vistas sirven para reutilizar consultas, simplificar reportes y ofrecer una representación uniforme de los datos. También pueden contribuir a la seguridad: el taller necesita informar cuánto pagó cada cliente, pero no es indispensable revelar los teléfonos de los clientes ni los descuentos específicos de cada orden. Por ello, la vista del ejemplo publica solamente el identificador, el nombre, la cantidad de órdenes pagadas y el importe acumulado. Para restringir efectivamente el acceso se debe conceder permiso de consulta sobre la vista a un usuario de reportes y evitar concederle acceso directo a las tablas base. La vista, por sí sola, no reemplaza una política de permisos.
+
+```sql
+CREATE OR REPLACE VIEW vw_resumen_clientes_taller AS
+SELECT
+    o.id_cliente,
+    c.nombre AS cliente,
+    COUNT(*) AS ordenes_pagadas,
+    SUM(o.monto_total) AS total_pagado
+FROM ordenes_taller o
+INNER JOIN clientes_taller c ON c.id_cliente = o.id_cliente
+WHERE o.estado = 'PAGADA'
+GROUP BY o.id_cliente, c.nombre;
+
+SELECT
+    id_cliente,
+    cliente,
+    ordenes_pagadas,
+    total_pagado
+FROM vw_resumen_clientes_taller
+ORDER BY id_cliente;
+```
+
+La vista muestra únicamente el resumen de órdenes pagadas y no expone el teléfono ni los descuentos individuales. Para conceder permisos a un usuario de reportes que ya exista, el administrador puede ejecutar `GRANT SELECT ON vw_resumen_clientes_taller TO usuario_reportes;`, siempre que disponga de los privilegios necesarios.
 
 ### Sub-consultas: de una fila, de varias filas y correlacionadas
 * **Sub-consultas de una fila, de varias filas y correlacionadas (Sección 4.2):**
