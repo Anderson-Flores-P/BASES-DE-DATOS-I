@@ -69,13 +69,13 @@ docente: Mgtr. Rafael Torres
 ## Bloque 3 — Normalización
 
 ### Dependencias funcionales y anomalías de datos
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras -->
+Una dependencia funcional es una relación lógica entre dos o más atributos dentro de una tabla de bases de datos, donde el valor de un atributo determina de manera única el valor de otro ($X \rightarrow Y$). Este concepto es el pilar fundamental de la normalización. Cuando no se respeta, surgen anomalías de inserción, actualización y borrado durante las operaciones de DML, las cuales se eliminan estructurando correctamente las tablas.
 
 ### Formas normales: 1FN, 2FN, 3FN y BCNF
 <!-- ESCRIBE AQUÍ: mínimo 150 palabras. Incluye un ejemplo propio: una tabla sin normalizar del negocio del grupo y cómo queda después de aplicar hasta 3FN. -->
 
 ### Investigación más allá de clase: la desnormalización
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras. ¿Cuándo y por qué se desnormaliza a propósito una base de datos (por ejemplo, en reportes o data warehouse)? ¿Qué riesgo se asume? -->
+La desnormalización es una técnica que introduce redundancia controlada agrupando tablas o duplicando datos para optimizar el rendimiento de lectura. Es altamente usada en entornos de Data Warehouse y sistemas OLAP para acelerar reportes analíticos pesados. Sin embargo, sus principales riesgos son el incremento del espacio de almacenamiento y la alta complejidad en las escrituras (INSERT, UPDATE, DELETE), ya que cualquier cambio exige actualizar todas las copias para evitar inconsistencias.
 
 ***
 
@@ -85,7 +85,23 @@ docente: Mgtr. Rafael Torres
 <!-- ESCRIBE AQUÍ: mínimo 100 palabras, incluye al menos un ejemplo de CREATE VIEW con las tablas del caso -->
 
 ### Sub-consultas: de una fila, de varias filas y correlacionadas
-<!-- ESCRIBE AQUÍ: mínimo 120 palabras, incluye al menos un ejemplo de código de cada tipo (3 ejemplos en total) -->
+* **Sub-consultas de una fila, de varias filas y correlacionadas (Sección 4.2):**
+Una subconsulta es una sentencia SQL anidada dentro de otra consulta principal (en cláusulas como SELECT, FROM o WHERE) que permite resolver operaciones complejas por etapas de manera eficiente.
+
+  * **Sub-consultas de una fila (Escalares):** Retornan un único valor (una fila y una columna) y se utilizan comúnmente con operadores de comparación estándar como `=`, `<`, `>` o `<>`. 
+    ```sql
+    SELECT nombre, precio FROM productos_ej WHERE precio > (SELECT AVG(precio) FROM productos_ej);
+    ```
+
+  * **Sub-consultas de varias filas:** Retornan una lista de múltiples valores y requieren el uso de operadores especiales de conjunto como `IN`, `ANY` o `ALL` para evaluar las condiciones adecuadamente.
+    ```sql
+    SELECT nombre, correo FROM clientes_ej WHERE id_cliente IN (SELECT id_cliente FROM pedidos_ej WHERE estado = 'E');
+    ```
+
+  * **Sub-consultas correlacionadas:** Se evalúan fila por fila en relación directa con la consulta externa, lo que significa que dependen de los datos de afuera y utilizan operadores de existencia como `EXISTS` o `NOT EXISTS`.
+    ```sql
+    SELECT c.nombre, c.ciudad FROM clientes_ej c WHERE EXISTS (SELECT 1 FROM pedidos_ej p WHERE p.id_cliente = c.id_cliente);
+    ```
 
 ### Investigación más allá de clase: vistas materializadas
 <!-- ESCRIBE AQUÍ: mínimo 80 palabras. ¿En qué se diferencia una vista materializada de una vista normal? ¿Cuándo conviene usarla? -->
