@@ -217,8 +217,24 @@ ORDER BY p.id_pedido, pr.nombre_producto;
 Enunciado: Muestra **todos** los clientes con su nombre completo, su ciudad y la cantidad total de pedidos que han realizado (en cualquier estado). Los clientes que nunca han hecho un pedido deben aparecer con 0. Ordena de mayor a menor cantidad de pedidos y luego por nombre completo.
 
 ```sql
--- Escribe aquí tu consulta
-
+```sql
+SELECT
+    c.id_cliente,
+    c.nombre || ' ' || c.apellido AS nombre_completo,
+    c.ciudad,
+    COUNT(p.id_pedido) AS total_pedidos
+FROM clientes_ej c
+LEFT JOIN pedidos_ej p
+    ON c.id_cliente = p.id_cliente
+GROUP BY
+    c.id_cliente,
+    c.nombre,
+    c.apellido,
+    c.ciudad
+ORDER BY
+    total_pedidos DESC,
+    nombre_completo;
+```
 ```
 
 ---
@@ -305,6 +321,27 @@ COMMIT;
 Enunciado: Crea la vista `v_ventas_entregadas_ej` que muestre, para cada producto de cada pedido **entregado**: el `id_pedido`, el nombre completo del cliente (con el alias `cliente`), la ciudad, el nombre del producto (con el alias `producto`), la cantidad y el subtotal (con el alias `subtotal`). Luego, usando **solo la vista**, muestra por cada ciudad el monto total vendido (con el alias `total_vendido`), ordenado de mayor a menor.
 
 ```sql
--- Escribe aquí tu CREATE VIEW y la consulta sobre la vista
+CREATE OR REPLACE VIEW v_ventas_entregadas_ej AS
+SELECT
+    p.id_pedido,
+    c.nombre || ' ' || c.apellido AS cliente,
+    c.ciudad,
+    pr.nombre AS producto,
+    d.cantidad,
+    (d.cantidad * pr.precio) AS subtotal
+FROM clientes_ej c
+INNER JOIN pedidos_ej p
+    ON c.id_cliente = p.id_cliente
+INNER JOIN detalle_ej d
+    ON p.id_pedido = d.id_pedido
+INNER JOIN productos_ej pr
+    ON d.id_producto = pr.id_producto
+WHERE p.estado = 'E';
 
+SELECT
+    ciudad,
+    SUM(subtotal) AS total_vendido
+FROM v_ventas_entregadas_ej
+GROUP BY ciudad
+ORDER BY total_vendido DESC;
 ```
