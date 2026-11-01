@@ -11,7 +11,7 @@ integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011586
 integrante_4_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_5_carnet: CIF 2026011377
-integrante_5_nombre: Kelly Alejandra Rodriguez Alvarado 
+integrante_5_nombre: KELLY ALEJANDRA RODIGUEZ ALVARADO
 ---
 
 ## Datos de referencia
@@ -179,7 +179,7 @@ Enunciado: Sobre la tabla `pedidos_ej`, muestra el `id_cliente` y la cantidad de
 ```sql
 SELECT id_cliente, COUNT(*) AS total_pedidos
 FROM pedidos_ej
-WHERE estado != 'CANCELADO'
+WHERE estado != 'C'
 GROUP BY id_cliente
 HAVING COUNT(*) >= 2
 ORDER BY total_pedidos DESC;
@@ -193,30 +193,25 @@ ORDER BY total_pedidos DESC;
 Enunciado: Muestra el detalle de los pedidos **entregados**: nombre completo del cliente, `id_pedido`, nombre del producto, cantidad y subtotal (cantidad multiplicada por el precio del producto). Necesitarás unir `clientes_ej`, `pedidos_ej`, `detalle_ej` y `productos_ej`. Ordena por `id_pedido` y luego por nombre del producto.
 
 ```sql
-SELECT 
-    c.id_cliente,
-    c.nombre_cliente,
+SELECT
+    c.nombre || ' ' || c.apellido AS nombre_completo,
     p.id_pedido,
-    pr.nombre_producto,
+    pr.nombre AS producto,
     d.cantidad,
-    d.precio_unitario,
-    (d.cantidad * d.precio_unitario) AS subtotal
+    (d.cantidad * pr.precio) AS subtotal
 FROM clientes_ej c
-INNER JOIN pedidos_ej p ON c.id_cliente = p.id_cliente
-INNER JOIN detalle_ej d ON p.id_pedido = d.id_pedido
+INNER JOIN pedidos_ej p   ON c.id_cliente = p.id_cliente
+INNER JOIN detalle_ej d   ON p.id_pedido  = d.id_pedido
 INNER JOIN productos_ej pr ON d.id_producto = pr.id_producto
-WHERE p.estado = 'ENTREGADO'
-ORDER BY p.id_pedido, pr.nombre_producto;
+WHERE p.estado = 'E'
+ORDER BY p.id_pedido, pr.nombre;
 
 ```
-
----
 
 ## Consulta 6 — Guía 10: LEFT JOIN combinado con agregación (Peso: 10%)
 
 Enunciado: Muestra **todos** los clientes con su nombre completo, su ciudad y la cantidad total de pedidos que han realizado (en cualquier estado). Los clientes que nunca han hecho un pedido deben aparecer con 0. Ordena de mayor a menor cantidad de pedidos y luego por nombre completo.
 
-```sql
 ```sql
 SELECT
     c.id_cliente,
@@ -234,7 +229,6 @@ GROUP BY
 ORDER BY
     total_pedidos DESC,
     nombre_completo;
-```
 ```
 
 ---
