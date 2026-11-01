@@ -10,8 +10,8 @@ integrante_3_carnet: CIF 2026011595
 integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011586
 integrante_4_nombre: JOSE ALFREDO RODRIGUEZ MONGE
-integrante_5_carnet: CIF 20XXXXXX
-integrante_5_nombre: Nombre Apellido (como aparece en Moodle)
+integrante_5_carnet: CIF 2026011377
+integrante_5_nombre: KELLY ALEJANDRA RODRIGUEZ ALVARADO 
 docente: Mgtr. Rafael Torres
 ---
 
@@ -22,17 +22,52 @@ docente: Mgtr. Rafael Torres
 
 ## Introducción
 
-<!-- ESCRIBE AQUÍ: 3-5 líneas. De qué trata el trabajo y por qué es importante para el curso. -->
-
+En esta investigación vamos a hablar sobre diferentes temas que hemos aprendido en la materia de Base de Datos I. Entre ellos están las funciones de agregación, los JOINs, la normalización, las vistas y las subconsultas en Oracle. Para explicar mejor estos temas, utilizaremos como ejemplo un taller de reparación de computadoras. De esta manera podremos entender cómo se utilizan las bases de datos en un negocio y cómo ayudan a mantener la información organizada.
 ***
 
 ## Caso del grupo
 
 ### Descripción del negocio
-<!-- ESCRIBE AQUÍ: mínimo 50 palabras. Elijan un negocio real o inventado (farmacia, taller, cine, librería, etc.) y describan qué información necesita guardar. No usen tiendas en línea, empleados/departamentos ni alumnos/carreras: esos ya son los ejemplos de clase. -->
 
+El negocio que escogimos es un taller de reparación de computadoras. En este lugar llegan clientes que necesitan reparar sus equipos porque tienen alguna falla o necesitan mantenimiento. El taller necesita guardar los datos de sus clientes y llevar un control de las reparaciones que realiza. También debe registrar la fecha, el costo del servicio y si la orden ya fue pagada o sigue pendiente. Esto permite tener la información más ordenada y llevar un mejor control de los trabajos.
 ### Tablas del caso
-<!-- ESCRIBE AQUÍ: los CREATE TABLE de 2 o 3 tablas relacionadas del negocio, con llave primaria y llave foránea, y al menos 5 INSERT por tabla. TODOS los ejemplos de código de los 4 bloques deben usar estas tablas. -->
+```sql
+-- Tabla de clientes
+CREATE TABLE clientes_taller (
+    id_cliente NUMBER PRIMARY KEY,
+    nombre VARCHAR2(100) NOT NULL,
+    telefono VARCHAR2(15)
+);
+
+-- Tabla de órdenes de reparación
+CREATE TABLE ordenes_taller (
+    id_orden NUMBER PRIMARY KEY,
+    id_cliente NUMBER NOT NULL,
+    fecha_orden DATE,
+    monto_total NUMBER(10,2),
+    estado VARCHAR2(20),
+    descuento NUMBER(10,2),
+    CONSTRAINT fk_orden_cliente
+        FOREIGN KEY (id_cliente)
+        REFERENCES clientes_taller(id_cliente)
+);
+
+-- Registros de clientes
+INSERT INTO clientes_taller VALUES (101, 'Ana López', '70001111');
+INSERT INTO clientes_taller VALUES (102, 'Carlos Pérez', '70002222');
+INSERT INTO clientes_taller VALUES (103, 'María García', '70003333');
+INSERT INTO clientes_taller VALUES (104, 'José Martínez', '70004444');
+INSERT INTO clientes_taller VALUES (105, 'Laura Hernández', '70005555');
+
+-- Registros de órdenes de reparación
+INSERT INTO ordenes_taller VALUES (1, 101, DATE '2026-10-01', 25, 'PAGADA', 5);
+INSERT INTO ordenes_taller VALUES (2, 101, DATE '2026-10-02', 40, 'PAGADA', 10);
+INSERT INTO ordenes_taller VALUES (3, 102, DATE '2026-10-03', 60, 'PAGADA', 0);
+INSERT INTO ordenes_taller VALUES (4, 102, DATE '2026-10-04', 110, 'PAGADA', NULL);
+INSERT INTO ordenes_taller VALUES (5, 103, DATE '2026-10-05', 50, 'PENDIENTE', NULL);
+
+COMMIT;
+```
 
 ```sql
 
@@ -194,7 +229,28 @@ Una subconsulta es una sentencia SQL anidada dentro de otra consulta principal (
 <!-- ESCRIBE AQUÍ: mínimo 80 palabras. ¿En qué se diferencia una vista materializada de una vista normal? ¿Cuándo conviene usarla? -->
 
 ### Sub-consulta, JOIN o vista: ¿cuál conviene usar?
-<!-- ESCRIBE AQUÍ: mínimo 100 palabras. Resuelvan un mismo problema del negocio del grupo de dos formas distintas (por ejemplo, con sub-consulta y con JOIN) y argumenten cuál prefieren y por qué. -->
+En el taller de reparación de computadoras podemos consultar qué clientes tienen órdenes de reparación registradas utilizando un JOIN o una subconsulta. Las dos formas permiten obtener el mismo resultado, pero funcionan de manera diferente. El JOIN relaciona directamente las tablas clientes_taller y ordenes_taller mediante el campo id_cliente. Por otro lado, la subconsulta utiliza EXISTS para comprobar si cada cliente tiene al menos una orden registrada. Considero que el JOIN es más conveniente cuando necesitamos relacionar y mostrar información de ambas tablas, porque permite ver claramente de dónde vienen los datos. Sin embargo, EXISTS también es útil cuando solamente queremos saber si un cliente tiene órdenes registradas.
+
+**Ejemplo utilizando JOIN:**
+
+```sql
+SELECT DISTINCT c.id_cliente, c.nombre
+FROM clientes_taller c
+INNER JOIN ordenes_taller o
+    ON c.id_cliente = o.id_cliente;
+```
+
+**Ejemplo utilizando subconsulta:**
+
+```sql
+SELECT c.id_cliente, c.nombre
+FROM clientes_taller c
+WHERE EXISTS (
+    SELECT 1
+    FROM ordenes_taller o
+    WHERE o.id_cliente = c.id_cliente
+);
+```
 
 ***
 
