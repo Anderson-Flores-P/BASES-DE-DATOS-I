@@ -119,8 +119,17 @@ COMMIT;
 Enunciado: Sobre la tabla `clientes_ej`, muestra para cada cliente: su nombre completo (nombre y apellido separados por un espacio), su usuario del sistema y su teléfono enmascarado. El usuario es la parte del correo antes de la arroba, con el punto reemplazado por un guion bajo (por ejemplo, `andrea.gomez@mail.com` → `andrea_gomez`). El teléfono enmascarado muestra solo los últimos 4 dígitos con el formato `****-2233`. Ordena por `id_cliente`.
 
 ```sql
--- Escribe aquí tu consulta
 
+SELECT
+    nombre || ' ' || apellido AS nombre_completo,
+    REPLACE(
+        SUBSTR(correo, 1, INSTR(correo, '@') - 1),
+        '.',
+        '_'
+    ) AS usuario,
+    '****-' || SUBSTR(telefono, -4) AS telefono_enmascarado
+FROM clientes_ej
+ORDER BY id_cliente;
 ```
 
 ---
