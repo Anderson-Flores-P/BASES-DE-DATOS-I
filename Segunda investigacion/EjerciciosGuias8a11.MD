@@ -1,7 +1,7 @@
 ---
 grupo: G0X
 tarea: Consultas SQL integradoras — Guías 8 a 11
-fecha_entrega: 2026-10-XX
+fecha_entrega: 2026-11-1
 integrante_1_carnet: CIF 2026011705
 integrante_1_nombre: ANDERSON STEVEN FLORES PEREZ
 integrante_2_carnet: CIF 2026011056
