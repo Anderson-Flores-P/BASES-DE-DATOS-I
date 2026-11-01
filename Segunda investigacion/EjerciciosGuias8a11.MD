@@ -226,8 +226,67 @@ Enunciado: La tabla `ventas_raw_ej` no está normalizada: repite los datos del c
 Después, llena las cuatro tablas a partir de `ventas_raw_ej` usando `INSERT INTO ... SELECT DISTINCT ...` (sin escribir los datos a mano) y confirma los cambios.
 
 ```sql
--- Escribe aquí tus CREATE TABLE (en el orden correcto por las llaves foráneas), tus INSERT ... SELECT y el COMMIT
 
+-- 1. Crear tabla de categorías
+CREATE TABLE categorias_n (
+    id_categoria NUMBER(3) PRIMARY KEY,
+    nombre_categoria VARCHAR2(30)
+);
+
+-- 2. Crear tabla de productos
+CREATE TABLE productos_n (
+    id_producto NUMBER(5) PRIMARY KEY,
+    nombre_producto VARCHAR2(60),
+    precio NUMBER(8,2),
+    id_categoria NUMBER(3),
+    CONSTRAINT fk_producto_categoria
+        FOREIGN KEY (id_categoria)
+        REFERENCES categorias_n(id_categoria)
+);
+
+-- 3. Crear tabla de clientes
+CREATE TABLE clientes_n (
+    id_cliente NUMBER(5) PRIMARY KEY,
+    nombre_cliente VARCHAR2(60),
+    ciudad_cliente VARCHAR2(40)
+);
+
+-- 4. Crear tabla de ventas
+CREATE TABLE ventas_n (
+    id_venta NUMBER(5) PRIMARY KEY,
+    id_cliente NUMBER(5),
+    id_producto NUMBER(5),
+    cantidad NUMBER(4),
+    CONSTRAINT fk_venta_cliente
+        FOREIGN KEY (id_cliente)
+        REFERENCES clientes_n(id_cliente),
+    CONSTRAINT fk_venta_producto
+        FOREIGN KEY (id_producto)
+        REFERENCES productos_n(id_producto)
+);
+
+-- 5. Insertar las categorías
+INSERT INTO categorias_n (id_categoria, nombre_categoria)
+SELECT DISTINCT id_categoria, nombre_categoria
+FROM ventas_raw_ej;
+
+-- 6. Insertar los productos
+INSERT INTO productos_n (id_producto, nombre_producto, precio, id_categoria)
+SELECT DISTINCT id_producto, nombre_producto, precio, id_categoria
+FROM ventas_raw_ej;
+
+-- 7. Insertar los clientes
+INSERT INTO clientes_n (id_cliente, nombre_cliente, ciudad_cliente)
+SELECT DISTINCT id_cliente, nombre_cliente, ciudad_cliente
+FROM ventas_raw_ej;
+
+-- 8. Insertar las ventas
+INSERT INTO ventas_n (id_venta, id_cliente, id_producto, cantidad)
+SELECT DISTINCT id_venta, id_cliente, id_producto, cantidad
+FROM ventas_raw_ej;
+
+-- 9. Confirmar los cambios
+COMMIT;
 ```
 
 ---
