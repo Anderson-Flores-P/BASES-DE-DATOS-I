@@ -11,7 +11,7 @@ integrante_3_nombre: PERLA ESMERALDA LÓPEZ BARRIENTOS
 integrante_4_carnet: CIF 2026011586
 integrante_4_nombre: JOSE ALFREDO RODRIGUEZ MONGE
 integrante_5_carnet: CIF 2026011377
-integrante_5_nombre: KELLY ALEJANDRA RODRIGUEZ ALVARADO 
+integrante_5_nombre: KELLY ALEJANDRA RODRIGUEZ ALVARADO
 docente: Mgtr. Rafael Torres
 ---
 
@@ -135,13 +135,15 @@ Los operadores `JOIN` en bases de datos relacionales permiten combinar registros
 Ejemplo de código aplicando las tablas del caso:
 
 ```sql
-SELECT c.nombre_cliente, p.id_pedido, p.estado
-FROM clientes_ej c
-INNER JOIN pedidos_ej p ON c.id_cliente = p.id_cliente;
+-- INNER JOIN: Devuelve solo los clientes que tienen órdenes registradas
+SELECT c.nombre, o.id_orden, o.monto_total, o.estado
+FROM clientes_taller c
+INNER JOIN ordenes_taller o ON c.id_cliente = o.id_cliente;
 
-SELECT c.nombre_cliente, p.id_pedido
-FROM clientes_ej c
-LEFT JOIN pedidos_ej p ON c.id_cliente = p.id_cliente;
+-- LEFT JOIN: Devuelve todos los clientes, tengan o no órdenes registradas
+SELECT c.nombre, o.id_orden, o.monto_total, o.estado
+FROM clientes_taller c
+LEFT JOIN ordenes_taller o ON c.id_cliente = o.id_cliente;
 
 ### El producto cartesiano: qué es y cómo evitarlo
 
@@ -164,6 +166,7 @@ SELECT e.nombre, d.nombre_departamento
 FROM empleados e
 LEFT JOIN departamentos d ON e.id_depto = d.id_depto;
 ***
+```
 
 ## Bloque 3 — Normalización
 
@@ -171,7 +174,20 @@ LEFT JOIN departamentos d ON e.id_depto = d.id_depto;
 Una dependencia funcional es una relación lógica entre dos o más atributos dentro de una tabla de bases de datos, donde el valor de un atributo determina de manera única el valor de otro ($X \rightarrow Y$). Este concepto es el pilar fundamental de la normalización. Cuando no se respeta, surgen anomalías de inserción, actualización y borrado durante las operaciones de DML, las cuales se eliminan estructurando correctamente las tablas.
 
 ### Formas normales: 1FN, 2FN, 3FN y BCNF
-<!-- ESCRIBE AQUÍ: mínimo 150 palabras. Incluye un ejemplo propio: una tabla sin normalizar del negocio del grupo y cómo queda después de aplicar hasta 3FN. -->
+Para garantizar la consistencia de los datos y evitar redundancias en el taller de reparación de computadoras, aplicamos el proceso de normalización hasta la Tercera Forma Normal (3FN):
+
+* **Primera Forma Normal (1FN):** Exige que los valores almacenados en cada columna sean atómicos (indivisibles) y no existan grupos repetitivos. En el taller, la tabla `ordenes_taller` cumple la 1FN porque atributos como `monto_total` o `descuento` contienen un único valor por registro.
+* **Segunda Forma Normal (2FN):** Cumple con la 1FN y exige que los atributos no clave dependan totalmente de la clave primaria completa (eliminando dependencias parciales).
+* **Tercera Forma Normal (3FN):** Cumple con la 2FN y garantiza que ningún atributo no clave dependa transitivamente de otro atributo no clave.
+
+**Ejemplo aplicado al negocio:**
+Si tuviéramos una tabla desnormalizada llamada `registro_taller_desordenado (id_orden, nombre_cliente, telefono_cliente, fecha_orden, monto_total)`, al modificar el teléfono de un cliente habría que actualizar múltiples filas, generando riesgo de inconsistencias (anomalía de actualización). 
+
+Al aplicar 3FN, dividimos la información en dos tablas normalizadas:
+1. `clientes_taller` (`id_cliente` [PK], `nombre`, `telefono`)
+2. `ordenes_taller` (`id_orden` [PK], `id_cliente` [FK], `fecha_orden`, `monto_total`, `estado`, `descuento`)
+
+De esta manera, el teléfono depende únicamente de `id_cliente` y los datos de la orden dependen de `id_orden`, logrando un diseño eficiente e íntegro.
 
 ### Investigación más allá de clase: la desnormalización
 La desnormalización es una técnica que introduce redundancia controlada agrupando tablas o duplicando datos para optimizar el rendimiento de lectura. Es altamente usada en entornos de Data Warehouse y sistemas OLAP para acelerar reportes analíticos pesados. Sin embargo, sus principales riesgos son el incremento del espacio de almacenamiento y la alta complejidad en las escrituras (INSERT, UPDATE, DELETE), ya que cualquier cambio exige actualizar todas las copias para evitar inconsistencias.
@@ -226,7 +242,7 @@ Una subconsulta es una sentencia SQL anidada dentro de otra consulta principal (
     ```
 
 ### Investigación más allá de clase: vistas materializadas
-<!-- ESCRIBE AQUÍ: mínimo 80 palabras. ¿En qué se diferencia una vista materializada de una vista normal? ¿Cuándo conviene usarla? -->
+A diferencia de una vista normal (que es una consulta almacenada que se ejecuta dinámicamente cada vez que se invoca), una vista materializada en Oracle almacena físicamente el resultado de la consulta en disco como un objeto persistente. Su principal ventaja es el rendimiento analítico, ya que evita recalcular agrupaciones o `JOIN` complejos en tiempo real sobre tablas masivas. Conviene utilizarlas en data warehouses, inteligencia de negocios o reportes ejecutivos pesados donde los datos no requieren ser en tiempo real y se pueden programar refrescos (`REFRESH FAST` o `REFRESH COMPLETE`) periódicos.
 
 ### Sub-consulta, JOIN o vista: ¿cuál conviene usar?
 En el taller de reparación de computadoras podemos consultar qué clientes tienen órdenes de reparación registradas utilizando un JOIN o una subconsulta. Las dos formas permiten obtener el mismo resultado, pero funcionan de manera diferente. El JOIN relaciona directamente las tablas clientes_taller y ordenes_taller mediante el campo id_cliente. Por otro lado, la subconsulta utiliza EXISTS para comprobar si cada cliente tiene al menos una orden registrada. Considero que el JOIN es más conveniente cuando necesitamos relacionar y mostrar información de ambas tablas, porque permite ver claramente de dónde vienen los datos. Sin embargo, EXISTS también es útil cuando solamente queremos saber si un cliente tiene órdenes registradas.
@@ -256,16 +272,22 @@ WHERE EXISTS (
 
 ## Conclusiones
 
-<!-- ESCRIBE AQUÍ: mínimo un párrafo por integrante, o una conclusión grupal de al menos 150 palabras -->
+* **Anderson Steven Flores Pérez:** El desarrollo de esta investigación nos permitió comprender a profundidad cómo las funciones de agregación y las cláusulas `GROUP BY` y `HAVING` facilitan la consolidación de información clave en un taller de servicio, permitiendo diferenciar reportes analíticos globales de aquellos filtrados por criterios de grupo.
+* **Camila Nicole Salvador Samayoa:** El estudio práctico de los `JOINs` evidenció la superioridad de la sintaxis estándar ANSI frente a la notación antigua de Oracle `(+)`, permitiendo redactar uniones más legibles, sostenibles y exentas de productos cartesianos involuntarios que mermen el rendimiento de la base de datos.
+* **Perla Esmeralda López Barrientos:** La aplicación del proceso de normalización hasta la 3FN demostró ser una práctica indispensable para estructurar la base de datos del negocio sin redundancias, garantizando la integridad referencial y erradicando anomalías de inserción, modificación o borrado de información.
+* **José Alfredo Rodríguez Monge:** La implementación de vistas en Oracle ofrece una capa estratégica fundamental tanto para simplificar la complejidad de las consultas recurrentes como para robustecer la seguridad informática, restringiendo el acceso directo a datos confidenciales o sensibles de los clientes.
+* **Kelly Alejandra Rodríguez Alvarado:** Comparar el desempeño entre subconsultas y `JOINs` enriqueció nuestro criterio técnico para determinar la técnica SQL idónea según cada escenario operacional, perfeccionando nuestra capacidad para diseñar bases de datos relacionales eficientes y escalables.
 
 ***
 
 ## Bibliografía
 
-<!-- Mínimo 5 fuentes en formato APA 7.ª edición, numeradas. Al menos una debe ser documentación oficial de Oracle (Oracle Help Center). -->
+1. Coronel, C., & Morris, S. (2019). *Database Systems: Design, Implementation, & Management* (13.ª ed.). Cengage Learning.
 
-1.
-2.
-3.
-4.
-5.
+2. Elmasri, R., & Navathe, S. B. (2016). *Fundamentals of Database Systems* (7.ª ed.). Pearson.
+
+3. Kyte, T., & Kuhn, D. (2014). *Expert Oracle Database Architecture* (3.ª ed.). Apress.
+
+4. Silberschatz, A., Korth, H. F., & Sudarshan, S. (2020). *Database System Concepts* (7.ª ed.). McGraw-Hill Education.
+
+5. Date, C. J. (2004). *An Introduction to Database Systems* (8.ª ed.). Pearson Addison-Wesley.
